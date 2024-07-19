@@ -61,6 +61,7 @@ Es momento de iniciar el proceso de enlazar el servidor nginx mediante gunicorn 
 2.2. En el archivo agregar la siguiente información
 ```
 
+
 [Unit]
 # metadatos necesarios
 Description=gunicorn daemon
@@ -68,20 +69,20 @@ After=network.target
 
 [Service]
 # usuario del sistema operativo que ejecutará el proceso
-User=usuario-sistema-operativo
+User=jonathan
 # el grupo del sistema operativo que permite la comunicación a desde el servidor web-nginx con gunicorn. No se debe cambiar el valor
 Group=www-data
 
 # a través de la variable WorkingDirectory se indica la dirección absoluta del proyecto de Django
-WorkingDirectory=/home/usuario-sistema/carpeta/proyectos/nombre-proyecto
+WorkingDirectory=/home/jonathan/Documentos/ejemplo2/proyectoUno
 
 # En Environment se indica el path de python
 # Ejemplo 1: /usr/bin/python3.9
 # Ejemplo 2: (Opcional, con el uso de entornos virtuales) /home/usuario/entornos/entorno01/bin
-Environment="PATH=agregar-path-python"
+Environment="/home/jonathan/entornos/entorno2bim/bin/python3.10"
 
 # Detallar el comando para iniciar el servicio
-ExecStart=path-python/bin/gunicorn --workers 3 --bind unix:application.sock -m 007 proyectoDjango.wsgi:application
+ExecStart=/home/jonathan/Documentos/JonathanCoronel/entornos/entorno2bim/bin/gunicorn --workers 3 --bind unix:application.sock -m 007 proyectoUno.wsgi:application
 
 # Donde: aplicacion.sock es el nombre del archivo que se debe crear en el directorio del proyecto; proyectoDjango el nombre del proyecto que se intenta vincular con nginx.
 # La expresión /bin/gunicorn no se debe modificar.
@@ -132,12 +133,12 @@ server {
     
     location / {
         include proxy_params;
-        proxy_pass http://unix:/ruta/al/archivo/sock/application.sock;
+        proxy_pass http://unix:/home/jonathan/Documentos/ejemplo2/proyectoUno/application.sock;
     }
 
     
     location /static/ {
-        root /ruta/a/la/carpeta/staticos/del/proyecto-django;
+        root /home/jonathan/Documentos/ejemplo2/proyectoUno/;
     }
 
 }
